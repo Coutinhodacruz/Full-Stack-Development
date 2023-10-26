@@ -3,6 +3,7 @@ package com.example.fullsatckdevelopment.service;
 import com.example.fullsatckdevelopment.model.Student;
 import com.example.fullsatckdevelopment.request.LoginRequest;
 import com.example.fullsatckdevelopment.request.RegisterRequest;
+import com.example.fullsatckdevelopment.request.UpdateRequest;
 import com.example.fullsatckdevelopment.response.GetStudentResponse;
 import com.example.fullsatckdevelopment.response.LoginResponse;
 import com.example.fullsatckdevelopment.response.RegisterResponse;
@@ -20,7 +21,7 @@ public interface IStudentService {
 
     List<Student> getStudent();
 
-    Student updateStudent(Student student, Long id);
+    Student updateStudent(UpdateRequest updateRequest, Long id);
 
     GetStudentResponse getStudentById(Long id);
 

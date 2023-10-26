@@ -2,10 +2,9 @@ package com.example.fullsatckdevelopment.controller;
 
 
 import com.example.fullsatckdevelopment.model.Student;
-import com.example.fullsatckdevelopment.request.LoginRequest;
 import com.example.fullsatckdevelopment.request.RegisterRequest;
+import com.example.fullsatckdevelopment.request.UpdateRequest;
 import com.example.fullsatckdevelopment.response.GetStudentResponse;
-import com.example.fullsatckdevelopment.response.LoginResponse;
 import com.example.fullsatckdevelopment.response.RegisterResponse;
 import com.example.fullsatckdevelopment.service.IStudentService;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +47,8 @@ public class StudentController {
     }
 
     @PutMapping("/update/{id}")
-    public Student updateStudent(@RequestBody Student student, @PathVariable Long id){
-        return studentServices.updateStudent(student,id);
+    public Student updateStudent(@RequestBody UpdateRequest updateRequest, @PathVariable Long id){
+        return studentServices.updateStudent(updateRequest,id);
     }
 
     @DeleteMapping("/delete/{id}")

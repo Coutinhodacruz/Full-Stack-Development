@@ -6,10 +6,12 @@ import com.example.fullsatckdevelopment.model.Student;
 import com.example.fullsatckdevelopment.repository.StudentRepository;
 import com.example.fullsatckdevelopment.request.LoginRequest;
 import com.example.fullsatckdevelopment.request.RegisterRequest;
+import com.example.fullsatckdevelopment.request.UpdateRequest;
 import com.example.fullsatckdevelopment.response.GetStudentResponse;
 import com.example.fullsatckdevelopment.response.LoginResponse;
 import com.example.fullsatckdevelopment.response.RegisterResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 
 public class StudentService implements IStudentService{
 
@@ -84,19 +87,26 @@ public class StudentService implements IStudentService{
         return studentRepository.findAll();
     }
 
+
     @Override
-    public Student updateStudent(Student student, Long id) {
-        return studentRepository.findById(id).map(studentOne ->{
-            studentOne.setFirstName(student.getFirstName());
-            studentOne.setLastName(student.getLastName());
-            studentOne.setEmail(student.getEmail());
-            studentOne.setPassword(student.getPassword());
-            studentOne.setDepartment(studentOne.getDepartment());
+    public Student updateStudent(UpdateRequest updateRequest, Long id) {
+        return studentRepository.findById(id).map(studentOne -> {
+            studentOne.setFirstName(updateRequest.getFirstName());
+            studentOne.setLastName(updateRequest.getLastName());
+            studentOne.setEmail(updateRequest.getEmail());
+            studentOne.setPassword(updateRequest.getPassword());
+
+            // Check if updateRequest.getDepartment() is not null before setting the department property
+            if (updateRequest.getDepartment() != null) {
+                studentOne.setDepartment(updateRequest.getDepartment());
+            }
+            log.info("updated student --> {}", studentOne);
 
             return studentRepository.save(studentOne);
 
         }).orElseThrow(() -> new StudentNotFoundException("Sorry this student could not be found"));
     }
+
 
     @Override
     public GetStudentResponse getStudentById(Long id) {
