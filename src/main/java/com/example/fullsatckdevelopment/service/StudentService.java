@@ -43,8 +43,9 @@ public class StudentService implements IStudentService{
 //
 //        String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
 //        student.setPassword(encodedPassword);
-        studentRepository.save(student);
+        Student savedStudent = studentRepository.save(student);
         RegisterResponse response = new RegisterResponse();
+        response.setId(savedStudent.getId());
         response.setMessage("Student registered successfully");
 
         return response;
@@ -96,7 +97,6 @@ public class StudentService implements IStudentService{
             studentOne.setEmail(updateRequest.getEmail());
             studentOne.setPassword(updateRequest.getPassword());
 
-            // Check if updateRequest.getDepartment() is not null before setting the department property
             if (updateRequest.getDepartment() != null) {
                 studentOne.setDepartment(updateRequest.getDepartment());
             }
