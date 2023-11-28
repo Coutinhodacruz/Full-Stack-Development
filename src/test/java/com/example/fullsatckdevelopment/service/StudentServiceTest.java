@@ -6,6 +6,7 @@ import com.example.fullsatckdevelopment.request.RegisterRequest;
 import com.example.fullsatckdevelopment.request.UpdateRequest;
 import com.example.fullsatckdevelopment.response.GetStudentResponse;
 import com.example.fullsatckdevelopment.response.RegisterResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,9 +23,15 @@ class StudentServiceTest {
    @Autowired
     StudentService studentService;
 
+    RegisterRequest registerRequest;
+
+    @BeforeEach
+    void setUp(){
+        registerRequest = new RegisterRequest();
+    }
+
     @Test
     public void registerStudentTest(){
-        RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setFirstName("Jessica");
         registerRequest.setLastName("Ashley");
         registerRequest.setEmail("jessica@gmail.com");
@@ -38,14 +45,16 @@ class StudentServiceTest {
 
     @Test
     public void addStudentAlreadyExistsTest() {
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setFirstName("Jessica");
-        registerRequest.setLastName("Ashley");
-        registerRequest.setEmail("hellojessica@gmail.com");
-        registerRequest.setPassword("password");
-        registerRequest.setDepartment("Frontend");
-        registerRequest.setPassword("password");
-
+       try {
+           registerRequest.setFirstName("Jessica");
+           registerRequest.setLastName("Ashley");
+           registerRequest.setEmail("hellojessica@gmail.com");
+           registerRequest.setPassword("password");
+           registerRequest.setDepartment("Frontend");
+           registerRequest.setPassword("password");
+       }catch (StudentAlreadyExistsException e){
+           System.out.println(e.getMessage());
+       }
         assertThrows(StudentAlreadyExistsException.class, () -> studentService.registerStudent(registerRequest));
     }
 
